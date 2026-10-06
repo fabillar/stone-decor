@@ -215,4 +215,177 @@
     const target = document.querySelector('.logo');
     if (target) setTimeout(() => target.focus({ preventScroll: true }), reduceMotion ? 0 : 600);
   });
+  /* ---------- Quote modal ---------- */
+  const qModal = document.getElementById('quote-modal');
+  if (qModal) {
+    const qForm = qModal.querySelector('#quote-form');
+    const qStatus = qForm.querySelector('.form-status');
+    const qSelects = [...qForm.querySelectorAll('select')];
+    const syncQ = () => qSelects.forEach((s) => s.classList.toggle('has-value', !!s.value));
+    qSelects.forEach((s) => s.addEventListener('change', () => { syncQ(); s.closest('.field').classList.remove('invalid'); }));
+    qForm.querySelectorAll('input, textarea').forEach((el) => el.addEventListener('input', () => el.closest('.field').classList.remove('invalid')));
+    let lastFocus = null;
+    const openQ = (e) => {
+      e?.preventDefault();
+      lastFocus = document.activeElement;
+      qModal.hidden = false;
+      document.body.classList.add('modal-open');
+      setTimeout(() => qForm.querySelector('input').focus(), 60);
+    };
+    const closeQ = () => {
+      qModal.hidden = true;
+      document.body.classList.remove('modal-open');
+      if (lastFocus) lastFocus.focus();
+    };
+    document.querySelectorAll('[data-quote-open]').forEach((b) => b.addEventListener('click', openQ));
+    qModal.querySelectorAll('[data-quote-close]').forEach((b) => b.addEventListener('click', closeQ));
+    document.addEventListener('keydown', (e) => {
+      if (qModal.hidden) return;
+      if (e.key === 'Escape') closeQ();
+      if (e.key === 'Tab') { // keep focus inside the dialog
+        const f = [...qModal.querySelectorAll('button, input, select, textarea, a[href]')].filter((el) => el.offsetParent);
+        if (!f.length) return;
+        if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+      }
+    });
+    qForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let firstBad = null;
+      qForm.querySelectorAll('[required]').forEach((el) => {
+        const field = el.closest('.field');
+        field.classList.remove('invalid');
+        if (!el.value.trim() || (el.type === 'email' && !el.checkValidity())) {
+          void field.offsetWidth; field.classList.add('invalid'); firstBad = firstBad || el;
+        }
+      });
+      if (firstBad) {
+        qStatus.className = 'form-status err';
+        qStatus.textContent = 'Please fill in the required fields marked with *.';
+        firstBad.focus();
+        return;
+      }
+      const d = Object.fromEntries(new FormData(qForm));
+      const subject = `Quote request – ${d.projectType} – ${d.name.trim()}`;
+      const lines = [
+        `Name: ${d.name.trim()}`,
+        `Email: ${d.email}`,
+        d.phone && `Phone: ${d.phone}`,
+        `Project type: ${d.projectType}`,
+        d.timeline && `Timeline: ${d.timeline}`,
+        d.location && `Location: ${d.location}`,
+      ].filter(Boolean);
+      const body = `${lines.join('\n')}\n\n${d.details}`;
+      window.location.href = `mailto:info@stonedecor.net?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      qStatus.className = 'form-status ok';
+      qStatus.textContent = 'Thank you! Your email app is opening with your quote request ready to send.';
+      qForm.reset(); syncQ();
+    });
+  }
+
+  /* ---------- Hero slideshow ---------- */
+  const slides = [...document.querySelectorAll('.hero-slide')];
+  const dots = [...document.querySelectorAll('.hero-dot')];
+  if (slides.length > 1) {
+    const dotsWrap = document.querySelector('.hero-dots');
+    const ms = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--slide-ms')) || 7000;
+    let current = 0, timer = null, paused = false;
+
+    // preload the other photos so the crossfade never flashes
+    slides.slice(1).forEach((s) => {
+      const url = s.style.backgroundImage.slice(5, -2);
+      if (url) { const img = new Image(); img.src = url; }
+    });
+
+    const show = (i) => {
+      if (i === current) return;
+      slides[current].classList.remove('is-active');
+      dots[current]?.classList.remove('is-active');
+      dots[current]?.setAttribute('aria-selected', 'false');
+      current = (i + slides.length) % slides.length;
+      // restart the Ken Burns / progress animations
+      void slides[current].offsetWidth;
+      slides[current].classList.add('is-active');
+      dots[current]?.classList.add('is-active');
+      dots[current]?.setAttribute('aria-selected', 'true');
+    };
+    const start = () => { clearInterval(timer); if (!reduceMotion && !paused) timer = setInterval(() => show(current + 1), ms); };
+
+    dots.forEach((d, i) => d.addEventListener('click', () => { show(i); start(); }));
+
+    // pause while the tab is hidden
+    document.addEventListener('visibilitychange', () => {
+      paused = document.hidden;
+      dotsWrap?.classList.toggle('paused', paused);
+      paused ? clearInterval(timer) : start();
+    });
+    start();
+  }
+  /* ---------- Gallery: filters + lightbox ---------- */
+  const gItems = [...document.querySelectorAll('.g-item')];
+  if (gItems.length) {
+    const countEl = document.querySelector('.g-count span');
+    const filterBtns = [...document.querySelectorAll('.g-filter')];
+    filterBtns.forEach((btn) => btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      filterBtns.forEach((b) => { b.classList.toggle('is-active', b === btn); b.setAttribute('aria-pressed', String(b === btn)); });
+      let n = 0;
+      gItems.forEach((it) => {
+        const show = f === 'all' || it.dataset.cat === f;
+        it.classList.toggle('is-hidden', !show);
+        it.classList.remove('is-entering');
+        if (show) { n++; it.classList.add('in-view'); void it.offsetWidth; if (!reduceMotion) it.classList.add('is-entering'); }
+      });
+      if (countEl) countEl.textContent = n;
+    }));
+
+    const lb = document.getElementById('lightbox');
+    const lbImg = lb.querySelector('.lb-img');
+    const lbCat = lb.querySelector('.lb-cat');
+    const lbTitle = lb.querySelector('.lb-title');
+    const lbCap = lb.querySelector('.lb-cap');
+    const lbCount = lb.querySelector('.lb-counter');
+    let list = [], pos = 0, lastFocus = null;
+
+    const render = () => {
+      const it = list[pos];
+      const img = it.querySelector('img');
+      lbImg.classList.add('swap'); void lbImg.offsetWidth; lbImg.classList.remove('swap');
+      lbImg.src = img.currentSrc || img.src;
+      lbImg.alt = img.alt;
+      lbCat.textContent = it.querySelector('.g-cat').textContent;
+      lbTitle.textContent = it.querySelector('.g-title').textContent;
+      lbCap.textContent = it.querySelector('.g-cap').textContent;
+      lbCount.textContent = `${pos + 1} / ${list.length}`;
+    };
+    const openLb = (item) => {
+      list = gItems.filter((it) => !it.classList.contains('is-hidden'));
+      pos = Math.max(0, list.indexOf(item));
+      lastFocus = document.activeElement;
+      render();
+      lb.hidden = false;
+      document.body.classList.add('modal-open');
+      lb.querySelector('.lb-close').focus();
+    };
+    const closeLb = () => { lb.hidden = true; document.body.classList.remove('modal-open'); lastFocus?.focus(); };
+    const step = (d) => { pos = (pos + d + list.length) % list.length; render(); };
+
+    gItems.forEach((it) => it.querySelector('.g-open').addEventListener('click', () => openLb(it)));
+    lb.querySelectorAll('[data-lb-close]').forEach((b) => b.addEventListener('click', closeLb));
+    lb.querySelector('.lb-prev').addEventListener('click', () => step(-1));
+    lb.querySelector('.lb-next').addEventListener('click', () => step(1));
+    document.addEventListener('keydown', (e) => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
+    });
+    let tx = null;
+    lb.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', (e) => {
+      if (tx === null) return;
+      const dx = e.changedTouches[0].clientX - tx; tx = null;
+      if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+    });
+  }
 })();

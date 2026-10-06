@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sitemap — Stone Decor</title>
-  <meta name="description" content="Find every page on the Stone Decor website: products, projects, contact details, and legal information." />
+  <title>Architectural — Gallery — Stone Decor</title>
+  <meta name="description" content="Architectural stone by Stone Decor: carved columns, mouldings, fireplace surrounds, balustrades and custom natural stone details." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -62,10 +62,10 @@
           </div>
         </div>
         <div class="nav-item has-sub">
-          <a href="gallery.html" class="nav-parent">Gallery<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></a>
+          <a href="gallery.html" class="nav-parent active">Gallery<svg class="nav-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></a>
           <div class="sub-menu">
             <a href="gallery.html">Portfolio</a>
-            <a href="architectural.html">Architectural</a>
+            <a href="architectural.html" class="active" aria-current="page">Architectural</a>
           </div>
         </div>
         <div class="nav-item has-sub">
@@ -97,62 +97,156 @@
   </header>
 
   <main>
-    <section class="page-hero">
-      <div class="page-hero-bg" style="background-image:url('images/hero.jpg')"></div>
+    <section class="page-hero g-hero">
+      <div class="page-hero-bg" style="background-image:url('images/hero-entry.jpg')"></div>
       <div class="page-hero-overlay"></div>
       <div class="container page-hero-content">
-        <nav class="breadcrumb hero-anim" style="--d:.05s" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Sitemap</span></nav>
-        <p class="eyebrow hero-anim" style="--d:.15s">Explore</p>
-        <h1 class="hero-anim" style="--d:.25s">Sitemap</h1>
-        <p class="page-hero-sub hero-anim" style="--d:.38s">Everything on our website, all in one place.</p>
+        <nav class="breadcrumb hero-anim" style="--d:.05s" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="gallery.html">Gallery</a><span aria-hidden="true">/</span><span aria-current="page">Architectural</span></nav>
+        <p class="eyebrow hero-anim" style="--d:.15s">Gallery</p>
+        <h1 class="hero-anim" style="--d:.25s">Architectural Stone</h1>
+        <p class="page-hero-sub hero-anim" style="--d:.38s">Columns, mouldings, fireplace surrounds and custom carved details — natural stone craftsmanship that defines a space.</p>
+        <nav class="g-tabs hero-anim" style="--d:.5s" aria-label="Gallery sections">
+          <a href="gallery.html">Portfolio</a>
+          <a href="architectural.html" class="is-active" aria-current="page">Architectural</a>
+        </nav>
       </div>
     </section>
-    <section class="sitemap">
-      <div class="container sitemap-grid">
-        <div class="sitemap-group" data-reveal style="--d:0s">
-          <div class="sitemap-head"><span class="sitemap-icon"><svg class="icon"><use href="#i-home"/></svg></span><h2>Main Pages</h2></div>
-          <ul>
-              <li><a href="index.html"><span>Home</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="index.html#about"><span>Why Choose Stone Decor</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="showroom.html"><span>Our Showroom</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="gallery.html"><span>Portfolio</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="architectural.html"><span>Architectural</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="index.html#gallery"><span>Featured Projects</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="index.html#contact"><span>Contact Us</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-          </ul>
+
+    <section class="gallery">
+      <div class="container">
+        <div class="g-toolbar" data-reveal>
+          <div class="g-filters" role="group" aria-label="Filter pieces">
+          <button type="button" class="g-filter is-active" data-filter="all" aria-pressed="true">All Pieces</button>
+          <button type="button" class="g-filter" data-filter="exterior" aria-pressed="false">Exterior Details</button>
+          <button type="button" class="g-filter" data-filter="fireplace" aria-pressed="false">Fireplaces</button>
+          <button type="button" class="g-filter" data-filter="bath" aria-pressed="false">Bath</button>
+          <button type="button" class="g-filter" data-filter="furniture" aria-pressed="false">Sculpture &amp; Furniture</button>
+          </div>
+          <p class="g-count" aria-live="polite"><span>8</span> pieces</p>
         </div>
-        <div class="sitemap-group" data-reveal style="--d:0.1s">
-          <div class="sitemap-head"><span class="sitemap-icon"><svg class="icon"><use href="#i-diamond"/></svg></span><h2>Product Selections</h2></div>
-          <ul>
-              <li><a href="index.html#products"><span>All Products</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="limestone-tiles.html"><span>Limestone Tiles</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="marble-tiles.html"><span>Marble Tiles</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="travertine-tiles.html"><span>Travertine Tiles</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="index.html#products"><span>Countertops</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="index.html#products"><span>Wall Stone</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="index.html#products"><span>Flooring</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="index.html#products"><span>Outdoor Stone</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-          </ul>
-        </div>
-        <div class="sitemap-group" data-reveal style="--d:0.2s">
-          <div class="sitemap-head"><span class="sitemap-icon"><svg class="icon"><use href="#i-mail"/></svg></span><h2>Get in Touch</h2></div>
-          <ul>
-              <li><a href="index.html#contact"><span>Request a Quote</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="tel:+14048489484"><span>Call (404) 848-9484</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="mailto:info@stonedecor.net"><span>Email info@stonedecor.net</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="https://maps.google.com/?q=747+Miami+Cir+NE+Atlanta+GA+30324"><span>Visit Our Showroom</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-          </ul>
-        </div>
-        <div class="sitemap-group" data-reveal style="--d:0.3s">
-          <div class="sitemap-head"><span class="sitemap-icon"><svg class="icon"><use href="#i-shield"/></svg></span><h2>Legal</h2></div>
-          <ul>
-              <li><a href="privacy-policy.html"><span>Privacy Policy</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="terms-of-service.html"><span>Terms of Service</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-              <li><a href="sitemap.html"><span>Sitemap</span><svg class="icon"><use href="#i-arrow"/></svg></a></li>
-          </ul>
+
+        <div class="g-grid">
+          <figure class="g-item g-wide" data-cat="bath" data-reveal style="--d:0.00s">
+            <button type="button" class="g-open" data-index="0" aria-label="View larger: Sculpted Marble Freestanding Tub">
+              <img src="images/architectural/marble-freestanding-tub.jpg" alt="A freestanding tub carved from a single block of veined white marble, set in a marble-clad spa bath." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Bath</span>
+              <span class="g-title">Sculpted Marble Freestanding Tub</span>
+              <span class="g-cap">A freestanding tub carved from a single block of veined white marble, set in a marble-clad spa bath.</span>
+            </figcaption>
+          </figure>
+          <figure class="g-item g-tall" data-cat="fireplace" data-reveal style="--d:0.08s">
+            <button type="button" class="g-open" data-index="1" aria-label="View larger: Carved Limestone Mantel">
+              <img src="images/architectural/limestone-fireplace-mantel.jpg" alt="A classical limestone fireplace surround with a deep corbelled shelf and stepped mouldings." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Fireplace</span>
+              <span class="g-title">Carved Limestone Mantel</span>
+              <span class="g-cap">A classical limestone fireplace surround with a deep corbelled shelf and stepped mouldings.</span>
+            </figcaption>
+          </figure>
+          <figure class="g-item g-tall" data-cat="exterior" data-reveal style="--d:0.16s">
+            <button type="button" class="g-open" data-index="2" aria-label="View larger: Turned Limestone Balustrade">
+              <img src="images/architectural/limestone-balustrade.jpg" alt="Hand-turned limestone balusters with a moulded handrail and plinth." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Exterior Detail</span>
+              <span class="g-title">Turned Limestone Balustrade</span>
+              <span class="g-cap">Hand-turned limestone balusters with a moulded handrail and plinth.</span>
+            </figcaption>
+          </figure>
+          <figure class="g-item" data-cat="bath" data-reveal style="--d:0.00s">
+            <button type="button" class="g-open" data-index="3" aria-label="View larger: Hand-Carved Marble Pedestal Sink">
+              <img src="images/architectural/marble-pedestal-sink.jpg" alt="A monolithic marble pedestal sink with a rippled, hand-carved finish." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Bath</span>
+              <span class="g-title">Hand-Carved Marble Pedestal Sink</span>
+              <span class="g-cap">A monolithic marble pedestal sink with a rippled, hand-carved finish.</span>
+            </figcaption>
+          </figure>
+          <figure class="g-item" data-cat="exterior" data-reveal style="--d:0.08s">
+            <button type="button" class="g-open" data-index="4" aria-label="View larger: Greek Key Limestone Pier Cap">
+              <img src="images/architectural/limestone-pier-cap.jpg" alt="A stepped limestone pier cap with a carved Greek key frieze, crowning an entry gate pillar." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Exterior Detail</span>
+              <span class="g-title">Greek Key Limestone Pier Cap</span>
+              <span class="g-cap">A stepped limestone pier cap with a carved Greek key frieze, crowning an entry gate pillar.</span>
+            </figcaption>
+          </figure>
+          <figure class="g-item g-tall" data-cat="furniture" data-reveal style="--d:0.16s">
+            <button type="button" class="g-open" data-index="5" aria-label="View larger: Marble Rabbit Sculptures">
+              <img src="images/architectural/marble-rabbit-sculptures.jpg" alt="Playful rabbit sculptures cut from solid white marble for gardens and terraces." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Sculpture &amp; Furniture</span>
+              <span class="g-title">Marble Rabbit Sculptures</span>
+              <span class="g-cap">Playful rabbit sculptures cut from solid white marble for gardens and terraces.</span>
+            </figcaption>
+          </figure>
+          <figure class="g-item" data-cat="furniture" data-reveal style="--d:0.00s">
+            <button type="button" class="g-open" data-index="6" aria-label="View larger: Calacatta Gold Marble Bench">
+              <img src="images/architectural/calacatta-marble-bench.jpg" alt="A minimalist bench in Calacatta Gold marble with angled, mitred legs." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Sculpture &amp; Furniture</span>
+              <span class="g-title">Calacatta Gold Marble Bench</span>
+              <span class="g-cap">A minimalist bench in Calacatta Gold marble with angled, mitred legs.</span>
+            </figcaption>
+          </figure>
+          <figure class="g-item" data-cat="bath" data-reveal style="--d:0.08s">
+            <button type="button" class="g-open" data-index="7" aria-label="View larger: Marble Sink in a Black Marble Powder Room">
+              <img src="images/architectural/marble-pedestal-sink-room.jpg" alt="The carved marble pedestal sink set against black marble walls and a black mosaic floor." loading="lazy" />
+              <span class="g-zoom" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
+            </button>
+            <figcaption>
+              <span class="g-cat">Bath</span>
+              <span class="g-title">Marble Sink in a Black Marble Powder Room</span>
+              <span class="g-cap">The carved marble pedestal sink set against black marble walls and a black mosaic floor.</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
+
+    <section class="g-cta">
+      <div class="container g-cta-inner">
+        <div data-reveal>
+          <p class="eyebrow">Inspired?</p>
+          <h2>Let’s Create Something Beautiful Together</h2>
+        </div>
+        <div class="g-cta-actions" data-reveal style="--d:.1s">
+          <a href="index.html#contact" class="btn btn-primary">Start Your Project <svg class="icon arrow"><use href="#i-arrow"/></svg></a>
+          <a href="showroom.html" class="btn btn-outline-light">Visit the Showroom</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project photo viewer" hidden>
+      <div class="lb-backdrop" data-lb-close></div>
+      <button type="button" class="lb-close" data-lb-close aria-label="Close">&times;</button>
+      <button type="button" class="lb-nav lb-prev" aria-label="Previous photo"><svg class="icon"><use href="#i-arrow"/></svg></button>
+      <figure class="lb-stage">
+        <img class="lb-img" src="" alt="" />
+        <figcaption class="lb-caption">
+          <span class="g-cat lb-cat"></span>
+          <span class="lb-title"></span>
+          <span class="lb-cap"></span>
+          <span class="lb-counter"></span>
+        </figcaption>
+      </figure>
+      <button type="button" class="lb-nav lb-next" aria-label="Next photo"><svg class="icon"><use href="#i-arrow"/></svg></button>
+    </div>
   </main>
 
   <!-- ============ FOOTER ============ -->
