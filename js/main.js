@@ -336,7 +336,14 @@
         it.classList.remove('is-entering');
         if (show) { n++; it.classList.add('in-view'); void it.offsetWidth; if (!reduceMotion) it.classList.add('is-entering'); }
       });
-      if (countEl) countEl.textContent = n;
+      if (countEl) {
+        countEl.textContent = n;
+        const word = countEl.nextSibling;
+        if (word && word.nodeType === 3) {
+          word.__plural = word.__plural || word.textContent;
+          word.textContent = n === 1 ? word.__plural.replace(/ies(\s*)$/, 'y$1').replace(/([^y])s(\s*)$/, '$1$2') : word.__plural;
+        }
+      }
     }));
 
     const lb = document.getElementById('lightbox');
