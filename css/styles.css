@@ -478,6 +478,8 @@ body.modal-open { overflow: hidden; }
 .form-status:empty { display: none; }
 .form-status.ok { color: #4f6b3c; }
 .form-status.err { color: #a2442f; }
+.contact-form .btn[disabled] { opacity: .65; cursor: progress; pointer-events: none; }
+.hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 .contact-info {
   display: grid; grid-template-columns: auto auto auto; justify-content: space-between;

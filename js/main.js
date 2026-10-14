@@ -90,6 +90,40 @@
     } else contactMedia.classList.add('in-view');
   }
 
+  /* ---------- Form submit → /api/contact (Resend) ---------- */
+  const sendForm = async (formEl, statusEl, kind, onDone) => {
+    const btn = formEl.querySelector('button[type="submit"]');
+    const label = btn.innerHTML;
+    btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    btn.textContent = 'Sending…';
+    statusEl.className = 'form-status';
+    statusEl.textContent = '';
+    try {
+      const data = { ...Object.fromEntries(new FormData(formEl)), kind };
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.ok) throw new Error(out.error || 'Sorry, your message could not be sent. Please email info@stonedecor.net directly.');
+      statusEl.className = 'form-status ok';
+      statusEl.textContent = kind === 'quote'
+        ? 'Thank you! Your quote request has been sent. We’ll be in touch within one business day.'
+        : 'Thank you! Your message has been sent. We’ll get back to you as soon as possible.';
+      formEl.reset();
+      onDone && onDone();
+    } catch (err) {
+      statusEl.className = 'form-status err';
+      statusEl.textContent = err.message || 'Sorry, something went wrong. Please email info@stonedecor.net directly.';
+    } finally {
+      btn.disabled = false;
+      btn.removeAttribute('aria-busy');
+      btn.innerHTML = label;
+    }
+  };
+
   /* ---------- Contact form ---------- */
   const form = document.getElementById('contact-form');
   if (form) {
@@ -100,7 +134,7 @@
     syncSelect();
 
     form.querySelectorAll('input, textarea').forEach((el) =>
-      el.addEventListener('input', () => el.closest('.field').classList.remove('invalid')));
+      el.addEventListener('input', () => el.closest('.field')?.classList.remove('invalid')));
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -121,23 +155,7 @@
         return;
       }
 
-      const d = Object.fromEntries(new FormData(form));
-      const name = `${d.firstName} ${d.lastName}`.trim();
-      const subject = `Website enquiry${d.projectType ? ' – ' + d.projectType : ''} – ${name}`;
-      const body = [
-        `Name: ${name}`,
-        `Email: ${d.email}`,
-        d.phone ? `Phone: ${d.phone}` : '',
-        d.projectType ? `Project type: ${d.projectType}` : '',
-        '',
-        d.message,
-      ].filter((l, i) => l !== '' || i === 4).join('\n');
-
-      window.location.href = `mailto:info@stonedecor.net?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      status.className = 'form-status ok';
-      status.textContent = 'Thank you! Your email app is opening with your message ready to send.';
-      form.reset();
-      syncSelect();
+      sendForm(form, status, 'contact', syncSelect);
     });
   }
   /* ---------- Footer ---------- */
@@ -223,7 +241,7 @@
     const qSelects = [...qForm.querySelectorAll('select')];
     const syncQ = () => qSelects.forEach((s) => s.classList.toggle('has-value', !!s.value));
     qSelects.forEach((s) => s.addEventListener('change', () => { syncQ(); s.closest('.field').classList.remove('invalid'); }));
-    qForm.querySelectorAll('input, textarea').forEach((el) => el.addEventListener('input', () => el.closest('.field').classList.remove('invalid')));
+    qForm.querySelectorAll('input, textarea').forEach((el) => el.addEventListener('input', () => el.closest('.field')?.classList.remove('invalid')));
     let lastFocus = null;
     const openQ = (e) => {
       e?.preventDefault();
@@ -243,7 +261,7 @@
       if (qModal.hidden) return;
       if (e.key === 'Escape') closeQ();
       if (e.key === 'Tab') { // keep focus inside the dialog
-        const f = [...qModal.querySelectorAll('button, input, select, textarea, a[href]')].filter((el) => el.offsetParent);
+        const f = [...qModal.querySelectorAll('button, input, select, textarea, a[href]')].filter((el) => el.offsetParent && el.tabIndex !== -1);
         if (!f.length) return;
         if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
         else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
@@ -265,21 +283,7 @@
         firstBad.focus();
         return;
       }
-      const d = Object.fromEntries(new FormData(qForm));
-      const subject = `Quote request – ${d.projectType} – ${d.name.trim()}`;
-      const lines = [
-        `Name: ${d.name.trim()}`,
-        `Email: ${d.email}`,
-        d.phone && `Phone: ${d.phone}`,
-        `Project type: ${d.projectType}`,
-        d.timeline && `Timeline: ${d.timeline}`,
-        d.location && `Location: ${d.location}`,
-      ].filter(Boolean);
-      const body = `${lines.join('\n')}\n\n${d.details}`;
-      window.location.href = `mailto:info@stonedecor.net?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      qStatus.className = 'form-status ok';
-      qStatus.textContent = 'Thank you! Your email app is opening with your quote request ready to send.';
-      qForm.reset(); syncQ();
+      sendForm(qForm, qStatus, 'quote', syncQ);
     });
   }
 
